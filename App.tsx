@@ -14,11 +14,10 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
 import { supabase } from "./src/lib/supabase";
 import AccountScreen from "./src/screens/AccountScreen";
-import BlogScreen from "./src/screens/BlogScreen";
 import HomeScreen from "./src/screens/HomeScreen";
+import BlogStack from "./src/stacks/BlogStack";
 import RecipeStack from "./src/stacks/RecipeStack";
 import RegistrationStack from "./src/stacks/RegistrationStack";
-import BlogStack from "./src/stacks/BlogStack";
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -46,7 +45,15 @@ export default function App() {
       <GestureHandlerRootView className="flex-1">
         <BottomSheetModalProvider>
           <NavigationContainer>
-            <Tab.Navigator>
+            <Tab.Navigator
+              screenOptions={{
+                tabBarStyle: {
+                  backgroundColor: "#1b222d",
+                  borderTopWidth: 0,
+                  elevation: 0,
+                },
+              }}
+            >
               <Tab.Screen
                 name="Home"
                 component={HomeScreen}
@@ -54,6 +61,10 @@ export default function App() {
                   tabBarLabelStyle: {
                     fontFamily: "Inter_400Regular",
                   },
+                  headerStyle: {
+                    backgroundColor: "#1b222d",
+                  },
+                  headerTintColor: "#fff",
                   tabBarActiveTintColor: "#f26754",
                   tabBarIcon: ({ focused }) => (
                     <HomeIcon
@@ -107,6 +118,10 @@ export default function App() {
                     tabBarLabelStyle: {
                       fontFamily: "Inter_400Regular",
                     },
+                    headerStyle: {
+                      backgroundColor: "#1b222d",
+                    },
+                    headerTintColor: "#fff",
                     tabBarActiveTintColor: "#f26754",
                     tabBarIcon: ({ focused }) => (
                       <CircleUser
@@ -124,6 +139,10 @@ export default function App() {
                     tabBarLabelStyle: {
                       fontFamily: "Inter_400Regular",
                     },
+                    headerStyle: {
+                      backgroundColor: "#1b222d",
+                    },
+                    headerTintColor: "#fff",
                     tabBarActiveTintColor: "#f26754",
                     headerShown: false,
                     tabBarIcon: ({ focused }) => (

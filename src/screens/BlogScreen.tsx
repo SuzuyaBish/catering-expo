@@ -9,7 +9,7 @@ import {
 import { Text } from "../components/StyledText";
 import { fetchBlogs } from "../functions/blog-functions";
 
-export default function BlogScreen({navigation}) {
+export default function BlogScreen({ navigation }) {
   const [loading, setLoading] = useState<boolean>(true);
   const [blogs, setBlogs] = useState<Blog[]>([]);
 
@@ -31,7 +31,7 @@ export default function BlogScreen({navigation}) {
   return (
     <ScrollView
       contentContainerStyle={{
-        backgroundColor: "#f3f3f3",
+        backgroundColor: "#1b222d",
       }}
     >
       <View className="p-5">
@@ -55,8 +55,10 @@ export default function BlogScreen({navigation}) {
                   className="h-40 rounded-2xl overflow-hidden relative"
                 >
                   <View className="absolute bottom-5 left-5">
-                    <View className="bg-white/80 p-2 rounded">
-                      <Text>{blog.title}</Text>
+                    <View className="bg-white/80 p-2 rounded w-full">
+                      <Text numberOfLines={1} className="w-72">
+                        {blog.title}
+                      </Text>
                     </View>
                   </View>
                 </ImageBackground>

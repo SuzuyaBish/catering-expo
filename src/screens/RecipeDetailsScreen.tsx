@@ -68,13 +68,18 @@ export default function RecipeDetailsScreen({ route, navigation }) {
   }, []);
 
   const FirstRoute = () => (
-    <ScrollView className="flex-1">
+    <ScrollView
+      className="flex-1"
+      contentContainerStyle={{
+        backgroundColor: "#1b222d",
+      }}
+    >
       <View className="w-full p-5">
         {recipe.ingredients.map((ingredient) => {
           return (
             <View className="flex items-baseline flex-row">
-              <Text className="">{"\u2022"}</Text>
-              <Text className="flex-1 pl-5">{ingredient}</Text>
+              <Text className="text-white">{"\u2022"}</Text>
+              <Text className="flex-1 pl-5 text-white">{ingredient}</Text>
             </View>
           );
         })}
@@ -83,13 +88,18 @@ export default function RecipeDetailsScreen({ route, navigation }) {
   );
 
   const SecondRoute = () => (
-    <ScrollView className="flex-1">
+    <ScrollView
+      className="flex-1"
+      contentContainerStyle={{
+        backgroundColor: "#1b222d",
+      }}
+    >
       <View className="w-full p-5">
         {recipe.instructions.map((ingredient) => {
           return (
             <View className="flex items-baseline flex-row">
-              <Text className="">{"\u2022"}</Text>
-              <Text className="flex-1 pl-5">{ingredient}</Text>
+              <Text className="text-white">{"\u2022"}</Text>
+              <Text className="flex-1 pl-5 text-white">{ingredient}</Text>
             </View>
           );
         })}
@@ -97,7 +107,12 @@ export default function RecipeDetailsScreen({ route, navigation }) {
     </ScrollView>
   );
   const ThirdRoute = () => (
-    <ScrollView className="flex-1">
+    <ScrollView
+      className="flex-1"
+      contentContainerStyle={{
+        backgroundColor: "#1b222d",
+      }}
+    >
       <View className="w-full p-5">
         {recipe.reviews.map((review) => {
           return (
@@ -117,16 +132,18 @@ export default function RecipeDetailsScreen({ route, navigation }) {
                   />
                 ))}
               </View>
-              <Text>{review.review}</Text>
+              <Text className="text-white">{review.review}</Text>
               <View className="flex flex-row items-center space-x-3">
                 <Image
-                className="h-8 w-8 rounded-full overflow-hidden"
-                resizeMode="cover"
+                  className="h-8 w-8 rounded-full overflow-hidden"
+                  resizeMode="cover"
                   source={{
                     uri: review.author.avatar,
                   }}
                 />
-                <Text>{review.author.first_name} {review.author.last_name}</Text>
+                <Text className="text-white">
+                  {review.author.first_name} {review.author.last_name}
+                </Text>
               </View>
             </View>
           );
@@ -161,7 +178,7 @@ export default function RecipeDetailsScreen({ route, navigation }) {
           <TabBar
             {...props}
             indicatorStyle={{ backgroundColor: "#f26754" }}
-            style={{ backgroundColor: "#f3f3f3" }}
+            style={{ backgroundColor: "#1b222d" }}
             labelStyle={{ fontSize: 12, color: "#f26754" }}
           />
         )}
@@ -185,9 +202,9 @@ export default function RecipeDetailsScreen({ route, navigation }) {
           uri: recipe.image,
         }}
       />
-      <View className="p-3 space-y-5">
+      <View className="p-3 space-y-5 bg-blueColor">
         <View className="flex flex-row items-center justify-between">
-          <Text className="text-lg">{recipe.title}</Text>
+          <Text className="text-lg text-white">{recipe.title}</Text>
           <View className="flex flex-row items-center">
             {[0, 1, 2, 3, 4].map((rating) => (
               <StarIcon
@@ -204,7 +221,7 @@ export default function RecipeDetailsScreen({ route, navigation }) {
             ))}
           </View>
         </View>
-        <Text>{recipe.description}</Text>
+        <Text className="text-white">{recipe.description}</Text>
         <View className="flex flex-row items-center justify-between">
           <TouchableOpacity
             onPress={async () => {

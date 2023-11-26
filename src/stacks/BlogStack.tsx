@@ -6,7 +6,14 @@ import BlogScreen from "../screens/BlogScreen";
 export default function BlogStack() {
   const Stack = createNativeStackNavigator();
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#1b222d",
+        },
+        headerTintColor: "#fff",
+      }}
+    >
       <Stack.Screen name="Our Blogs" component={BlogScreen} />
       <Stack.Screen name="Blog Details" component={BlogDetailsScreen} />
     </Stack.Navigator>

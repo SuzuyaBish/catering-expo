@@ -39,12 +39,12 @@ export default function HomeScreen({ navigation }) {
   return (
     <ScrollView
       contentContainerStyle={{
-        backgroundColor: "#f3f3f3",
+        backgroundColor: "#1b222d",
       }}
     >
       <View className="p-5">
         <View className="flex flex-row items-center justify-between mb-5">
-          <Text className="text-2xl">Our Recipes</Text>
+          <Text className="text-2xl text-white">Our Recipes</Text>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("Our Recipes");
@@ -76,7 +76,7 @@ export default function HomeScreen({ navigation }) {
           })}
         </View>
         <View className="flex flex-row items-center justify-between mb-5 mt-10">
-          <Text className="text-2xl">Our Blogs</Text>
+          <Text className="text-2xl text-white">Our Blogs</Text>
           <Text className="text-orangeColor">View All</Text>
         </View>
         <View className="flex flex-col">
@@ -92,8 +92,10 @@ export default function HomeScreen({ navigation }) {
                   className="h-40 rounded-2xl overflow-hidden relative"
                 >
                   <View className="absolute bottom-5 left-5">
-                    <View className="bg-white/80 p-2 rounded">
-                      <Text>{blog.title}</Text>
+                    <View className="bg-white/80 w-full p-2 rounded">
+                      <Text numberOfLines={1} className="w-72">
+                        {blog.title}
+                      </Text>
                     </View>
                   </View>
                 </ImageBackground>

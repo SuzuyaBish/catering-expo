@@ -31,7 +31,7 @@ export default function RecipesScreen({ navigation }) {
   return (
     <ScrollView
       contentContainerStyle={{
-        backgroundColor: "#f3f3f3",
+        backgroundColor: "#1b222d",
       }}
     >
       <View className="p-5">

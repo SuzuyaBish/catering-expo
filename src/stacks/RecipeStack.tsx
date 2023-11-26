@@ -6,7 +6,14 @@ import RecipesScreen from "../screens/RecipesScreen";
 export default function RecipeStack() {
   const Stack = createNativeStackNavigator();
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#1b222d",
+        },
+        headerTintColor: "#fff",
+      }}
+    >
       <Stack.Screen name="Recipes" component={RecipesScreen} />
       <Stack.Screen name="Details" component={RecipeDetailsScreen} />
     </Stack.Navigator>
