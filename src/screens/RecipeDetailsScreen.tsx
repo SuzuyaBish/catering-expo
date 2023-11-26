@@ -1,5 +1,11 @@
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetScrollView,
+  BottomSheetTextInput,
+} from "@gorhom/bottom-sheet";
 import { StarIcon } from "lucide-react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -20,15 +26,33 @@ import {
   favoriteRecipe,
   fetchRecipeById,
   unFavoriteRecipe,
+  writeReview,
 } from "../functions/recipe-functions";
 import { fetchUser } from "../functions/user-function";
 
 export default function RecipeDetailsScreen({ route, navigation }) {
   const { id } = route.params;
   const [user, setUser] = useState<User>(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [rating, setRating] = useState<number | null>(null);
+  const [review, setReview] = useState<string>("");
 
   const [loading, setLoading] = useState<boolean>(true);
   const [recipe, setRecipe] = useState<Recipe>(null);
+
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  const min = 0;
+  const max = 5;
+
+  const handleChange = (event) => {
+    const value = Math.max(min, Math.min(max, Number(event.nativeEvent.text)));
+    setRating(value);
+  };
+
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
 
   useEffect(() => {
     fetchRecipeById(id)
@@ -142,6 +166,7 @@ export default function RecipeDetailsScreen({ route, navigation }) {
           <TouchableOpacity
             onPress={() => {
               if (user) {
+                handlePresentModalPress();
               } else {
                 Toast.show({
                   type: "error",
@@ -168,6 +193,113 @@ export default function RecipeDetailsScreen({ route, navigation }) {
           <TabViewExample />
         </View>
       </View>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        enableDynamicSizing
+        index={0}
+        enableContentPanningGesture={false}
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            appearsOnIndex={0}
+            disappearsOnIndex={-1}
+          />
+        )}
+        handleIndicatorStyle={
+          {
+            // backgroundColor: Colors.dark.mutedForeground,
+          }
+        }
+        enablePanDownToClose
+        containerStyle={{
+          borderTopLeftRadius: 20,
+        }}
+        backgroundStyle={
+          {
+            // backgroundColor: Colors.dark.background,
+          }
+        }
+        style={{
+          borderRadius: 20,
+          overflow: "hidden",
+          shadowColor: "#000",
+          borderWidth: 1,
+          shadowOffset: {
+            width: 0,
+            height: 7,
+          },
+          shadowOpacity: 0.41,
+          shadowRadius: 9.11,
+
+          elevation: 14,
+        }}
+      >
+        <BottomSheetScrollView className="flex-1">
+          <View className="px-5 pb-5 space-y-5">
+            <BottomSheetTextInput
+              placeholder="Write a review..."
+              style={{
+                borderColor: "#f26754",
+                borderWidth: 1,
+                borderRadius: 10,
+                padding: 10,
+                textAlignVertical: "top",
+                fontWeight: "bold",
+              }}
+              value={review}
+              onChange={(event) => {
+                setReview(event.nativeEvent.text);
+              }}
+            />
+            <BottomSheetTextInput
+              placeholder="Enter a rating..."
+              keyboardType="numeric"
+              style={{
+                borderColor: "#f26754",
+                borderWidth: 1,
+                borderRadius: 10,
+                padding: 10,
+                textAlignVertical: "top",
+                fontWeight: "bold",
+              }}
+              value={rating ? rating.toString() : ""}
+              onChange={handleChange}
+            />
+            <TouchableOpacity
+              disabled={loading}
+              onPress={async () => {
+                if (rating && review) {
+                  setLoading(true);
+                  await writeReview(user.id, review, rating, recipe).then(
+                    () => {
+                      fetchRecipeById(id)
+                        .then((recipe) => {
+                          setRecipe(recipe);
+                        })
+                        .then(() => {
+                          fetchUser().then((user) => {
+                            setUser(user);
+                            setLoading(false);
+                          });
+                        });
+                    }
+                  );
+                } else {
+                  Toast.show({
+                    type: "error",
+                    text1: "Error",
+                    text2: "You must enter a rating and a review",
+                    position: "bottom",
+                  });
+                }
+              }}
+              className="bg-orangeColor py-5 rounded-lg flex items-center justify-center"
+            >
+              <Text className="text-white">Post Review</Text>
+            </TouchableOpacity>
+          </View>
+        </BottomSheetScrollView>
+      </BottomSheetModal>
     </ScrollView>
   );
 }

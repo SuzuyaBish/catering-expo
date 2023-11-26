@@ -1,4 +1,5 @@
 import { Inter_400Regular, useFonts } from "@expo-google-fonts/inter";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { Session } from "@supabase/supabase-js";
@@ -9,6 +10,7 @@ import {
   UtensilsCrossed,
 } from "lucide-react-native";
 import { useEffect, useState } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
 import { supabase } from "./src/lib/supabase";
 import AccountScreen from "./src/screens/AccountScreen";
@@ -40,74 +42,81 @@ export default function App() {
   }
   return (
     <>
-      <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{
-              tabBarIcon: ({ focused }) => (
-                <HomeIcon size={24} color={focused ? "#e32f45" : "#748c94"} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Our Recipes"
-            component={RecipeStack}
-            options={{
-              title: "Our Recipes",
-              tabBarLabel: "Recipes",
-              headerShown: false,
-              tabBarIcon: ({ focused }) => (
-                <UtensilsCrossed
-                  size={24}
-                  color={focused ? "#e32f45" : "#748c94"}
+      <GestureHandlerRootView className="flex-1">
+        <BottomSheetModalProvider>
+          <NavigationContainer>
+            <Tab.Navigator>
+              <Tab.Screen
+                name="Home"
+                component={HomeScreen}
+                options={{
+                  tabBarIcon: ({ focused }) => (
+                    <HomeIcon
+                      size={24}
+                      color={focused ? "#e32f45" : "#748c94"}
+                    />
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="Our Recipes"
+                component={RecipeStack}
+                options={{
+                  title: "Our Recipes",
+                  tabBarLabel: "Recipes",
+                  headerShown: false,
+                  tabBarIcon: ({ focused }) => (
+                    <UtensilsCrossed
+                      size={24}
+                      color={focused ? "#e32f45" : "#748c94"}
+                    />
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="Blogs"
+                component={BlogScreen}
+                options={{
+                  tabBarIcon: ({ focused }) => (
+                    <BookMarkedIcon
+                      size={24}
+                      color={focused ? "#e32f45" : "#748c94"}
+                    />
+                  ),
+                }}
+              />
+              {session && session.user ? (
+                <Tab.Screen
+                  name="Account"
+                  component={AccountScreen}
+                  options={{
+                    tabBarIcon: ({ focused }) => (
+                      <CircleUser
+                        size={24}
+                        color={focused ? "#e32f45" : "#748c94"}
+                      />
+                    ),
+                  }}
                 />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Blogs"
-            component={BlogScreen}
-            options={{
-              tabBarIcon: ({ focused }) => (
-                <BookMarkedIcon
-                  size={24}
-                  color={focused ? "#e32f45" : "#748c94"}
+              ) : (
+                <Tab.Screen
+                  name="Account"
+                  component={RegistrationStack}
+                  options={{
+                    headerShown: false,
+                    tabBarIcon: ({ focused }) => (
+                      <CircleUser
+                        size={24}
+                        color={focused ? "#e32f45" : "#748c94"}
+                      />
+                    ),
+                  }}
                 />
-              ),
-            }}
-          />
-          {session && session.user ? (
-            <Tab.Screen
-              name="Account"
-              component={AccountScreen}
-              options={{
-                tabBarIcon: ({ focused }) => (
-                  <CircleUser
-                    size={24}
-                    color={focused ? "#e32f45" : "#748c94"}
-                  />
-                ),
-              }}
-            />
-          ) : (
-            <Tab.Screen
-              name="Account"
-              component={RegistrationStack}
-              options={{
-                headerShown: false,
-                tabBarIcon: ({ focused }) => (
-                  <CircleUser
-                    size={24}
-                    color={focused ? "#e32f45" : "#748c94"}
-                  />
-                ),
-              }}
-            />
-          )}
-        </Tab.Navigator>
-      </NavigationContainer>
+              )}
+            </Tab.Navigator>
+          </NavigationContainer>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
       <Toast />
     </>
   );
