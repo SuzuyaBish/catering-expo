@@ -3,12 +3,13 @@ import {
   ActivityIndicator,
   ImageBackground,
   ScrollView,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { Text } from "../components/StyledText";
 import { fetchRecipes } from "../functions/recipe-functions";
 
-export default function RecipesScreen() {
+export default function RecipesScreen({ navigation }) {
   const [loading, setLoading] = useState<boolean>(true);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
@@ -37,7 +38,15 @@ export default function RecipesScreen() {
         <View className="flex flex-row flex-wrap gap-y-5 items-center justify-between">
           {recipes.map((recipe) => {
             return (
-              <View key={recipe.id} className="w-[48%] h-40">
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Details", {
+                    id: recipe.id,
+                  });
+                }}
+                key={recipe.id}
+                className="w-[48%] h-40"
+              >
                 <ImageBackground
                   source={{
                     uri: recipe.image,
@@ -52,7 +61,7 @@ export default function RecipesScreen() {
                     </View>
                   </View>
                 </ImageBackground>
-              </View>
+              </TouchableOpacity>
             );
           })}
         </View>

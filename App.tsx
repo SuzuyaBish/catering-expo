@@ -9,11 +9,13 @@ import {
   UtensilsCrossed,
 } from "lucide-react-native";
 import { useEffect, useState } from "react";
+import Toast from "react-native-toast-message";
 import { supabase } from "./src/lib/supabase";
 import AccountScreen from "./src/screens/AccountScreen";
 import BlogScreen from "./src/screens/BlogScreen";
 import HomeScreen from "./src/screens/HomeScreen";
-import RecipesScreen from "./src/screens/RecipesScreen";
+import RecipeStack from "./src/stacks/RecipeStack";
+import RegistrationStack from "./src/stacks/RegistrationStack";
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -37,55 +39,76 @@ export default function App() {
     return null;
   }
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <HomeIcon size={24} color={focused ? "#e32f45" : "#748c94"} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Our Recipes"
-          component={RecipesScreen}
-          options={{
-            title: "Our Recipes",
-            tabBarLabel: "Recipes",
-            tabBarIcon: ({ focused }) => (
-              <UtensilsCrossed
-                size={24}
-                color={focused ? "#e32f45" : "#748c94"}
-              />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Blogs"
-          component={BlogScreen}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <BookMarkedIcon
-                size={24}
-                color={focused ? "#e32f45" : "#748c94"}
-              />
-            ),
-          }}
-        />
-        {session && session.user && (
+    <>
+      <NavigationContainer>
+        <Tab.Navigator>
           <Tab.Screen
-            name="Account"
-            component={AccountScreen}
+            name="Home"
+            component={HomeScreen}
             options={{
               tabBarIcon: ({ focused }) => (
-                <CircleUser size={24} color={focused ? "#e32f45" : "#748c94"} />
+                <HomeIcon size={24} color={focused ? "#e32f45" : "#748c94"} />
               ),
             }}
           />
-        )}
-      </Tab.Navigator>
-    </NavigationContainer>
+          <Tab.Screen
+            name="Our Recipes"
+            component={RecipeStack}
+            options={{
+              title: "Our Recipes",
+              tabBarLabel: "Recipes",
+              headerShown: false,
+              tabBarIcon: ({ focused }) => (
+                <UtensilsCrossed
+                  size={24}
+                  color={focused ? "#e32f45" : "#748c94"}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Blogs"
+            component={BlogScreen}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                <BookMarkedIcon
+                  size={24}
+                  color={focused ? "#e32f45" : "#748c94"}
+                />
+              ),
+            }}
+          />
+          {session && session.user ? (
+            <Tab.Screen
+              name="Account"
+              component={AccountScreen}
+              options={{
+                tabBarIcon: ({ focused }) => (
+                  <CircleUser
+                    size={24}
+                    color={focused ? "#e32f45" : "#748c94"}
+                  />
+                ),
+              }}
+            />
+          ) : (
+            <Tab.Screen
+              name="Account"
+              component={RegistrationStack}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({ focused }) => (
+                  <CircleUser
+                    size={24}
+                    color={focused ? "#e32f45" : "#748c94"}
+                  />
+                ),
+              }}
+            />
+          )}
+        </Tab.Navigator>
+      </NavigationContainer>
+      <Toast />
+    </>
   );
 }
