@@ -22,7 +22,7 @@ export default function RecipesScreen({ navigation }) {
 
   if (loading) {
     return (
-      <View className="flex-1 flex items-center justify-center">
+      <View className="flex-1 flex items-center justify-center bg-blueColor">
         <ActivityIndicator size="large" />
       </View>
     );

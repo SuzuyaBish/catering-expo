@@ -19,7 +19,7 @@ export default function BlogDetailsScreen({ route, navigation }) {
 
   if (loading) {
     return (
-      <View className="flex-1 items-center justify-center flex">
+      <View className="flex-1 items-center justify-center flex bg-blueColor">
         <ActivityIndicator size="large" />
       </View>
     );

@@ -7,6 +7,7 @@ import {
   BookMarkedIcon,
   CircleUser,
   HomeIcon,
+  LogOut,
   UtensilsCrossed,
 } from "lucide-react-native";
 import { useEffect, useState } from "react";
@@ -18,6 +19,7 @@ import HomeScreen from "./src/screens/HomeScreen";
 import BlogStack from "./src/stacks/BlogStack";
 import RecipeStack from "./src/stacks/RecipeStack";
 import RegistrationStack from "./src/stacks/RegistrationStack";
+import { TouchableOpacity } from "react-native";
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -123,6 +125,19 @@ export default function App() {
                     },
                     headerTintColor: "#fff",
                     tabBarActiveTintColor: "#f26754",
+
+                    // icon at the top of the screen
+                    headerRight: () => (
+                      <TouchableOpacity
+                        className="p-10"
+                        onPress={async () => {
+                          await supabase.auth.signOut();
+                        }}
+                      >
+                        <LogOut size={24} color="#fff" />
+                      </TouchableOpacity>
+                    ),
+
                     tabBarIcon: ({ focused }) => (
                       <CircleUser
                         size={24}

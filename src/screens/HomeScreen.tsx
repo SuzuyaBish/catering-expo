@@ -1,3 +1,4 @@
+import * as Linking from "expo-linking";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -30,7 +31,7 @@ export default function HomeScreen({ navigation }) {
 
   if (loading) {
     return (
-      <View className="flex-1 flex items-center justify-center">
+      <View className="flex-1 flex items-center justify-center bg-blueColor">
         <ActivityIndicator size="large" />
       </View>
     );
@@ -56,7 +57,7 @@ export default function HomeScreen({ navigation }) {
         <View className="flex flex-row items-center justify-between">
           {recipes.slice(0, 2).map((recipe) => {
             return (
-              <TouchableOpacity className="w-[48%] h-40">
+              <TouchableOpacity key={recipe.id} className="w-[48%] h-40">
                 <ImageBackground
                   source={{
                     uri: recipe.image,
@@ -75,6 +76,32 @@ export default function HomeScreen({ navigation }) {
             );
           })}
         </View>
+        <TouchableOpacity
+          onPress={() => {
+            Linking.openURL(
+              "https://catering-monorepo-catering-web.vercel.app/contact"
+            );
+          }}
+        >
+          <ImageBackground
+            resizeMode="cover"
+            source={require("../../assets/cta.jpg")}
+            className="h-40 w-full relative mt-10 flex flex-col items-center justify-center rounded-2xl overflow-hidden"
+          >
+            <View className="bg-black/20 z-0 w-full absolute h-full flex flex-col items-center justify-center"></View>
+            <View className="z-20 absolute">
+              <Text className="text-white bg-transparent text-lg">
+                Ready to cater your next event?
+              </Text>
+              <Text className="text-white text-lg text-center">
+                Get in touch today!
+              </Text>
+              <TouchableOpacity className="bg-orangeColor p-2 rounded flex items-center justify-center">
+                <Text className="text-white">Get In Touch</Text>
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
+        </TouchableOpacity>
         <View className="flex flex-row items-center justify-between mb-5 mt-10">
           <Text className="text-2xl text-white">Our Blogs</Text>
           <Text className="text-orangeColor">View All</Text>
@@ -82,7 +109,7 @@ export default function HomeScreen({ navigation }) {
         <View className="flex flex-col">
           {blogs.slice(0, 4).map((blog) => {
             return (
-              <View className="w-full h-40 mb-4">
+              <View key={blog.id} className="w-full h-40 mb-4">
                 <ImageBackground
                   source={{
                     uri: blog.image,
