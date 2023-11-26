@@ -3,12 +3,13 @@ import {
   ActivityIndicator,
   ImageBackground,
   ScrollView,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { Text } from "../components/StyledText";
 import { fetchBlogs } from "../functions/blog-functions";
 
-export default function BlogScreen() {
+export default function BlogScreen({navigation}) {
   const [loading, setLoading] = useState<boolean>(true);
   const [blogs, setBlogs] = useState<Blog[]>([]);
 
@@ -37,7 +38,14 @@ export default function BlogScreen() {
         <View className="flex flex-col">
           {blogs.slice(0, 4).map((blog) => {
             return (
-              <View className="w-full h-40 mb-4">
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Blog Details", {
+                    id: blog.id,
+                  });
+                }}
+                className="w-full h-40 mb-4"
+              >
                 <ImageBackground
                   source={{
                     uri: blog.image,
@@ -52,7 +60,7 @@ export default function BlogScreen() {
                     </View>
                   </View>
                 </ImageBackground>
-              </View>
+              </TouchableOpacity>
             );
           })}
         </View>

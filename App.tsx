@@ -18,6 +18,7 @@ import BlogScreen from "./src/screens/BlogScreen";
 import HomeScreen from "./src/screens/HomeScreen";
 import RecipeStack from "./src/stacks/RecipeStack";
 import RegistrationStack from "./src/stacks/RegistrationStack";
+import BlogStack from "./src/stacks/BlogStack";
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -50,6 +51,10 @@ export default function App() {
                 name="Home"
                 component={HomeScreen}
                 options={{
+                  tabBarLabelStyle: {
+                    fontFamily: "Inter_400Regular",
+                  },
+                  tabBarActiveTintColor: "#f26754",
                   tabBarIcon: ({ focused }) => (
                     <HomeIcon
                       size={24}
@@ -65,6 +70,10 @@ export default function App() {
                   title: "Our Recipes",
                   tabBarLabel: "Recipes",
                   headerShown: false,
+                  tabBarLabelStyle: {
+                    fontFamily: "Inter_400Regular",
+                  },
+                  tabBarActiveTintColor: "#f26754",
                   tabBarIcon: ({ focused }) => (
                     <UtensilsCrossed
                       size={24}
@@ -75,8 +84,13 @@ export default function App() {
               />
               <Tab.Screen
                 name="Blogs"
-                component={BlogScreen}
+                component={BlogStack}
                 options={{
+                  tabBarLabelStyle: {
+                    fontFamily: "Inter_400Regular",
+                  },
+                  tabBarActiveTintColor: "#f26754",
+                  headerShown: false,
                   tabBarIcon: ({ focused }) => (
                     <BookMarkedIcon
                       size={24}
@@ -90,6 +104,10 @@ export default function App() {
                   name="Account"
                   component={AccountScreen}
                   options={{
+                    tabBarLabelStyle: {
+                      fontFamily: "Inter_400Regular",
+                    },
+                    tabBarActiveTintColor: "#f26754",
                     tabBarIcon: ({ focused }) => (
                       <CircleUser
                         size={24}
@@ -103,6 +121,10 @@ export default function App() {
                   name="Account"
                   component={RegistrationStack}
                   options={{
+                    tabBarLabelStyle: {
+                      fontFamily: "Inter_400Regular",
+                    },
+                    tabBarActiveTintColor: "#f26754",
                     headerShown: false,
                     tabBarIcon: ({ focused }) => (
                       <CircleUser

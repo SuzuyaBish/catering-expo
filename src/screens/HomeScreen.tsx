@@ -3,13 +3,14 @@ import {
   ActivityIndicator,
   ImageBackground,
   ScrollView,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { Text } from "../components/StyledText";
 import { fetchBlogs } from "../functions/blog-functions";
 import { fetchRecipes } from "../functions/recipe-functions";
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const [loading, setLoading] = useState<boolean>(true);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -36,18 +37,26 @@ export default function HomeScreen() {
   }
 
   return (
-    <ScrollView contentContainerStyle={{
-      backgroundColor: "#f3f3f3",
-    }}>
+    <ScrollView
+      contentContainerStyle={{
+        backgroundColor: "#f3f3f3",
+      }}
+    >
       <View className="p-5">
         <View className="flex flex-row items-center justify-between mb-5">
           <Text className="text-2xl">Our Recipes</Text>
-          <Text className="text-orangeColor">View All</Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Our Recipes");
+            }}
+          >
+            <Text className="text-orangeColor">View All</Text>
+          </TouchableOpacity>
         </View>
         <View className="flex flex-row items-center justify-between">
           {recipes.slice(0, 2).map((recipe) => {
             return (
-              <View className="w-[48%] h-40">
+              <TouchableOpacity className="w-[48%] h-40">
                 <ImageBackground
                   source={{
                     uri: recipe.image,
@@ -62,7 +71,7 @@ export default function HomeScreen() {
                     </View>
                   </View>
                 </ImageBackground>
-              </View>
+              </TouchableOpacity>
             );
           })}
         </View>
