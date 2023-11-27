@@ -14,7 +14,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { SceneMap, TabBar, TabView } from "react-native-tab-view";
+import { TabBar, TabView } from "react-native-tab-view";
 import Toast from "react-native-toast-message";
 import { Text } from "../components/StyledText";
 import {
@@ -50,8 +50,14 @@ export default function RecipeDetailsScreen({ route, navigation }) {
     setRating(value);
   };
 
+  const handleReviewChange = (event) => {
+    setReview(event.nativeEvent.text);
+  };
+
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
+
+    setModalVisible(true);
   }, []);
 
   useEffect(() => {
@@ -152,11 +158,23 @@ export default function RecipeDetailsScreen({ route, navigation }) {
     </ScrollView>
   );
 
-  const renderScene = SceneMap({
-    ingredients: FirstRoute,
-    instructions: SecondRoute,
-    reviews: ThirdRoute,
-  });
+  // const renderScene = SceneMap({
+  //   ingredients: FirstRoute,
+  //   instructions: SecondRoute,
+  //   reviews: ThirdRoute,
+  // });
+  const renderScene = ({ route }) => {
+    switch (route.key) {
+      case "ingredients":
+        return <FirstRoute />;
+      case "instructions":
+        return <SecondRoute />;
+      case "reviews":
+        return <ThirdRoute />;
+      default:
+        return null;
+    }
+  };
 
   function TabViewExample() {
     const layout = useWindowDimensions();
@@ -305,6 +323,9 @@ export default function RecipeDetailsScreen({ route, navigation }) {
         ref={bottomSheetModalRef}
         enableDynamicSizing
         index={0}
+        onDismiss={() => {
+          setModalVisible(false);
+        }}
         enableContentPanningGesture={false}
         backdropComponent={(props) => (
           <BottomSheetBackdrop
@@ -355,9 +376,7 @@ export default function RecipeDetailsScreen({ route, navigation }) {
                 fontWeight: "bold",
               }}
               value={review}
-              onChange={(event) => {
-                setReview(event.nativeEvent.text);
-              }}
+              onChange={handleReviewChange}
             />
             <BottomSheetTextInput
               placeholder="Enter a rating..."
@@ -408,9 +427,7 @@ export default function RecipeDetailsScreen({ route, navigation }) {
           </View>
         </BottomSheetScrollView>
       </BottomSheetModal>
-      <View className="flex-1">
-        <TabViewExample />
-      </View>
+      <View className="flex-1 bg-blueColor">{!modalVisible && <TabViewExample />}</View>
     </>
   );
 }
